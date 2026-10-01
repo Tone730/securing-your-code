@@ -77,14 +77,12 @@ export class SearchResultComponent implements OnDestroy, AfterViewInit {
           description: product.description
         })
       }
+      const quantitiesByProductId = new Map<number, number>()
       for (const quantity of quantities) {
-        const entry = dataTable.find((dataTableEntry) => {
-          return dataTableEntry.id === quantity.ProductId
-        })
-        if (entry === undefined) {
-          continue
-        }
-        entry.quantity = quantity.quantity
+        quantitiesByProductId.set(quantity.ProductId, quantity.quantity)
+      }
+      for (const entry of dataTable) {
+        entry.quantity = quantitiesByProductId.get(entry.id)
       }
       this.dataSource = new MatTableDataSource<TableEntry>(dataTable)
       for (let i = 1; i <= Math.ceil(this.dataSource.data.length / 12); i++) {
