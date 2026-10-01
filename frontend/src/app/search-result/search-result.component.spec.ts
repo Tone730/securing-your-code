@@ -134,6 +134,22 @@ describe('SearchResultComponent', () => {
     expect(component).toBeTruthy()
   })
 
+  it('should match inventory quantities to products', () => {
+    productService.search.and.returnValue(of([
+      { id: 1, name: 'Apple Juice', description: '', price: 1, deluxePrice: 1, image: 'apple.jpg' },
+      { id: 2, name: 'Orange Juice', description: '', price: 2, deluxePrice: 2, image: 'orange.jpg' }
+    ]))
+    quantityService.getAll.and.returnValue(of([
+      { ProductId: 2, quantity: 4 },
+      { ProductId: 99, quantity: 10 },
+      { ProductId: 1, quantity: 7 }
+    ]))
+
+    component.ngAfterViewInit()
+
+    expect(component.dataSource.data.map((product) => product.quantity)).toEqual([7, 4])
+  })
+
   it('should render product descriptions as trusted HTML', () => {
     productService.search.and.returnValue(of([{ description: '<script>alert("XSS")</script>' }]))
     component.ngAfterViewInit()

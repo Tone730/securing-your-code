@@ -20,6 +20,20 @@ See [requirements](_labs/requirements.md) to see what is needed to run this lab.
 
 ---
 
+## Optional local Windows process snapshot
+
+The standalone [`tools/windows-process-monitor.ps1`](tools/windows-process-monitor.ps1) script provides an on-demand or explicitly started periodic snapshot of process metadata, Authenticode status, and Windows Defender status/recent detections. It is separate from the Juice Shop application and does not run automatically or change processes or Defender settings.
+
+Run one snapshot from Windows PowerShell:
+
+```powershell
+.\tools\windows-process-monitor.ps1
+```
+
+Use `-AsJson` for structured output, or `-Watch -IntervalSeconds 60 -Iterations 5` for five snapshots. The script never reads process command lines or writes snapshot files. Access to process paths/signatures and Defender cmdlets varies by Windows configuration and permissions; unavailable data is reported as such. PowerShell execution policy may block unsigned scripts; follow your organization's policy rather than weakening it. An unsigned executable is not, by itself, evidence of malware. This utility is a local inspection aid, not an antivirus scanner or replacement for Defender.
+
+---
+
 ## Workshop Labs
 
 ### Lab 1 - GitHub Advanced Security Feature Introduction
